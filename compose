@@ -1,0 +1,85 @@
+version: '3.9'
+services:
+    ubuntu:
+        command: 'apt-get update'
+        image: 'ubuntu:16.04'
+version: '3.9'
+services:
+    apt-get:
+        command: 'install -y software-properties-common debconf-utils nginx supervisor unzip'
+        image: apt-get
+version: '3.9'
+services:
+    apt-get:
+        command: 'update \'
+        image: apt-get
+version: '3.9'
+services:
+    add-apt-repository:
+        command: 'ppa:ondrej/php'
+        image: add-apt-repository
+version: '3.9'
+services:
+    apt-get:
+        command: 'install -y php7.0 php7.0-fpm php7.0-mysql php7.0-gd --allow-unauthenticated'
+        image: apt-get
+version: '3.9'
+services:
+    mkdir:
+        command: '-p /var/log/supervisor /run/php/ /etc/nginx /var/log/sentrifugo'
+        image: mkdir
+version: '3.9'
+services:
+    echo:
+        command: '"debconf debconf/frontend select Noninteractive" | debconf-set-selections'
+        image: echo
+version: '3.9'
+services:
+    nginx.conf:
+        command: /etc/nginx/nginx.conf
+        image: nginx/nginx.conf
+version: '3.9'
+services:
+    '80':
+        image: '80'
+version: '3.9'
+services:
+    php.ini:
+        command: /etc/php/7.0/fpm/php.ini
+        image: php-fpm/php.ini
+version: '3.9'
+services:
+    sentrifugo.conf:
+        command: /etc/php/7.0/fpm/pool.d/sentrifugo.conf
+        image: php-fpm/sentrifugo.conf
+version: '3.9'
+services:
+    php-fpm.conf:
+        command: /etc/php/7.0/fpm/php-fpm.conf
+        image: php-fpm/php-fpm.conf
+version: '3.9'
+services:
+    mv:
+        command: '/etc/php/7.0/fpm/pool.d/www.conf /etc/php/7.0/fpm/pool.d/www.conf.disabled'
+        image: mv
+version: '3.9'
+services:
+    supervisord.conf:
+        command: /etc/supervisor/conf.d/supervisord.conf
+        image: supervisord.conf
+version: '3.9'
+services:
+    wget:
+        command: 'http://www.sentrifugo.com/home/downloadfile?file_name=Sentrifugo.zip -O Sentrifugo.zip'
+        image: wget
+version: '3.9'
+services:
+    unzip:
+        command: '/Sentrifugo.zip -d / && rm -rfv /Sentrifugo.zip && mv -v /Sentrifugo_3.0 /sentrifugo'
+        image: unzip
+version: '3.9'
+services:
+    chown:
+        command: '-R www-data:www-data /sentrifugo/'
+        image: chown
+CMD ["/usr/bin/supervisord"]
